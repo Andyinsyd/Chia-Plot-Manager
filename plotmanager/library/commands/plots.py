@@ -19,6 +19,9 @@ def create(size, memory_buffer, temporary_directory, destination_directory, thre
         flags['e'] = ''
     if exclude_final_directory:
         flags['x'] = ''
+    # add k25 testing plot support
+    if (size==25):
+        flags['-override-k'] = ''
 
     data = [chia_location, 'plots', 'create']
     for key, value in flags.items():
