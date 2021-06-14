@@ -111,7 +111,7 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
     phase_times = {}
     phase_dates = {}
 
-    for phase in range(1, 5):
+    for phase in range(1, 4):
         match = re.search(rf'time for phase {phase} = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
         if match:
             seconds, date_raw = match.groups()
@@ -119,6 +119,15 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
             phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
             parsed_date = dateparser.parse(date_raw)
             phase_dates[phase] = parsed_date
+    
+    # check copy time
+    match5 = re.search(rf'Copy time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
+    if match5:
+        seconds, date_raw5 = match.groups()
+        seconds = float(seconds)
+        phase_times[5] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
+        parsed_date5 = dateparser.parse(date_raw5)
+        phase_dates[phase] = parsed_date5
 
     return phase_times, phase_dates
 
