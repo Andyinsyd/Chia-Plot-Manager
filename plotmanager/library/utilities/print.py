@@ -1,6 +1,7 @@
 import os
 import psutil
 import json
+import pprint
 
 from datetime import datetime, timedelta
 
@@ -211,6 +212,7 @@ def print_view(jobs, running_work, analysis, drives, next_log_check, view_settin
             print(f"CPU Usage: {psutil.cpu_percent()}%")
         else:
             cpu_temp = psutil.sensors_temperatures()
+            pprint.pprint(cpu_temp)
             print(f"CPU Usage: {psutil.cpu_percent()}%, Temperature: {cpu_temp['coretemp'][0].current} °C")
     if view_settings.get('include_ram'):
         ram_usage = psutil.virtual_memory()
