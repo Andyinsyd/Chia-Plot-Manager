@@ -206,7 +206,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
             send_notifications(
                 title='Plot Completed',
-                body=f'You completed a plot on {socket.gethostname()}!',
+                body=f'job {job.name} finished on {socket.gethostname()},phase time: {phase_times}!',
                 settings=notification_settings,
             )
             break
