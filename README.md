@@ -1,47 +1,4 @@
-# Swar's Chia Plot Manager 
-
-#### A plot manager for Chia plotting: https://www.chia.net/
-[English](README.md) / [Русский](README.RU.md)
-
-![The view of the manager](https://i.imgur.com/hIhjXt0.png "View")
-
-##### Development Version: v0.1.0
-
-This is a cross-platform Chia Plot Manager that will work on the major operating systems. This is not a plotter. The purpose of this library is to manage your plotting and kick off new plots with the settings that you configure. Everyone's system is unique so customization is an important feature that was engraved into this library.
-
-This library is simple, easy-to-use, and reliable to keep the plots generating.
-
-This library has been tested for Windows and Linux.
-
-
-## Features
-
-* Stagger your plots so that your computer resources can avoid high peaks.
-* Allow for a list of destination directories.
-* Utilize temporary space to its maximum potential by starting a new plot early.
-* Run a maximum number of plots concurrently to avoid bottlenecks or limit resource hogging.
-* More in-depth active plot screen.
-
-
-## Sponsor / Support this Library
-
-This library took a lot of time and effort in order to get it before you today. Consider sponsoring or supporting the library. This is not necessary but more a kind gestures.
-
-* XCH Address: xch134evwwqkq50nnsmgehnnag4gc856ydc7ached3xxr6jdk7e8l4usdnw39t
-* ETH Address: 0xf8F7BD24B94D75E54BFD9557fF6904DBE239322E
-* BTC Address: 36gnjnHqkttcBiKjjAekoy68z6C3BJ9ekS
-* Paypal: https://www.paypal.com/biz/fund?id=XGVS7J69KYBTY
-
-
-## Support / Questions
-
-Please do not use GitHub issues for questions or support regarding your own personal setups. Issues should pertain to actual bugs in the code and ideas. It has been tested to work on Windows, Linux, and Mac OS by numerous people at this point. So any questions relating to tech support, configuration setup, or things pertaining to your own personal use cases should be posted at any of the links below.
-* Discord Server: https://discord.gg/XyvMzeQpu2
-    * This is the Official Discord Server - Swar's Chia Community 
-* Official Chia Keybase Team: https://keybase.io/team/chia_network.public
-    * The channel is #swar 
-* GitHub Discussion Board: https://github.com/swar/Swar-Chia-Plot-Manager/discussions
-
+# My own fork for Swar's Chia Plot Manager 
 
 ## Frequently Asked Questions
 
@@ -111,19 +68,10 @@ The installation of this library is straightforward. I have attached detailed in
 #### NOTE: If `python` does not work, please try `python3`.
 
 1. Download and Install Python 3.7 or higher: https://www.python.org/
-2. `git clone` this repo or download it.
-3. Open CommandPrompt / PowerShell / Terminal and `cd` into the main library folder.
-   * Example: `cd C:\Users\Swar\Documents\Swar-Chia-Plot-Manager`
-4. OPTIONAL: Create a virtual environment for Python. This is recommended if you use Python for other things.
-	1. Create a new python environment: `python -m venv venv`
-	   * The second `venv` can be renamed to whatever you want. I prefer `venv` because it's a standard.
-	2. Activate the virtual environment. This must be done *every single time* you open a new window.
-	   * Example Windows: `venv\Scripts\activate`
-	   * Example Linux: `. ./venv/bin/activate` or `source ./venv/bin/activate`
-	   * Example Mac OS: `/Applications/Chia.app/Contents/Resources/app.asar.unpacked/daemon/chia`
-	3. Confirm that it has activated by seeing the `(venv)` prefix. The prefix will change depending on what you named it.
-5. Install the required modules: `pip install -r requirements.txt`
-	* If you plan on using Notifications or Prometheus then run the following to install the required modules: `pip install -r requirements-notification.txt`
+2. git clone https://github.com/Andyinsyd/Plotter.git
+3. cd Plotter
+4. python -m venv venv
+5. pip install -r requirements.txt
 6. Copy `config.yaml.default` and name it as `config.yaml` in the same directory.
 7. Edit and set up the config.yaml to your own personal settings. There is more help on this below.
 	* You will need to add the `chia_location` as well! This should point to your chia executable.
