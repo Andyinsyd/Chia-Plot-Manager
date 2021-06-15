@@ -77,6 +77,11 @@ def analyze_log_dates(log_directory, analysis):
     analysis = _get_date_summary(analysis)
     return analysis
 
+def check_phase_times(log_directory):
+    files = get_completed_log_files(log_directory)
+    for file_path, contents in files.items():
+        phase_times, phase_dates = get_phase_info(contents, pretty_print=False)
+        print(f"Total: {phase_times[5]}, Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} / {phase_times[6]}" )
 
 def analyze_log_times(log_directory):
     total_times = {1: 0, 2: 0, 3: 0, 4: 0}
@@ -120,14 +125,15 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
             parsed_date = dateparser.parse(date_raw)
             phase_dates[phase] = parsed_date
     
-    # check copy time
-    match5 = re.search(rf'Copy time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
-    if match5:
-        seconds5, date_raw5 = match5.groups()
-        seconds5 = float(seconds5)
-        phase_times[5] = pretty_print_time(int(seconds5), view_settings['include_seconds_for_phase']) if pretty_print else seconds5
-        parsed_date5 = dateparser.parse(date_raw5)
-        phase_dates[5] = parsed_date5
+    # check copy and total time
+    for phase in range(5,7):
+        match = re.search(rf'time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
+        if match:
+            seconds, date_raw = match.groups()
+            seconds = float(seconds)
+            phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
+            parsed_date = dateparser.parse(date_raw)
+            phase_dates[phase] = parsed_date
 
     return phase_times, phase_dates
 
@@ -206,7 +212,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
             send_notifications(
                 title='Plot Completed',
-                body=f'job {job.name} finished on {socket.gethostname()},phase time: {phase_times}!',
+                body=f'job {job.name} finished on {socket.gethostname()}, Total: {phase_times[5]}, Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} / {phase_times[6]}',
                 settings=notification_settings,
             )
             break

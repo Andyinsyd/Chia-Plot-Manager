@@ -11,7 +11,7 @@ from plotmanager.library.parse.configuration import get_config_info
 from plotmanager.library.utilities.configuration import test_configuration
 from plotmanager.library.utilities.exceptions import ManagerError, TerminationException
 from plotmanager.library.utilities.jobs import load_jobs
-from plotmanager.library.utilities.log import analyze_log_dates, check_log_progress, analyze_log_times
+from plotmanager.library.utilities.log import analyze_log_dates, check_log_progress, analyze_log_times, check_phase_times
 from plotmanager.library.utilities.notifications import send_notifications
 from plotmanager.library.utilities.print import print_view, print_json
 from plotmanager.library.utilities.processes import is_windows, get_manager_processes, get_running_plots, \
@@ -192,3 +192,10 @@ def analyze_logs():
         minimum_minutes_between_jobs, progress_settings, notification_settings, debug_level, view_settings, \
         instrumentation_settings = get_config_info()
     analyze_log_times(log_directory)
+
+
+def check_phase():
+    chia_location, log_directory, config_jobs, manager_check_interval, max_concurrent, max_for_phase_1, \
+        minimum_minutes_between_jobs, progress_settings, notification_settings, debug_level, view_settings, \
+        instrumentation_settings = get_config_info()
+    check_phase_times(log_directory)
