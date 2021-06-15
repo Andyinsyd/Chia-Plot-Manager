@@ -81,7 +81,7 @@ def check_phase_times(log_directory, view_settings):
     files = get_completed_log_files(log_directory)
     for file_path, contents in files.items():
         phase_times, phase_dates = get_phase_info(contents, view_settings, pretty_print=True)
-        print(f"Total: {phase_times[5]}, Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} / {phase_times[6]}" )
+        print(f"Total: {phase_times[6]}, Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} / {phase_times[5]}" )
 
 def analyze_log_times(log_directory):
     total_times = {1: 0, 2: 0, 3: 0, 4: 0}
@@ -116,25 +116,19 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
     phase_times = {}
     phase_dates = {}
 
-    for phase in range(1, 5):
-        match = re.search(rf'time for phase {phase} = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
+    for phase in range(1, 7):
+        if(phase <= 4):
+            match = re.search(rf'time for phase {phase} = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
+        elif(phase == 5):
+            match = re.search(rf'Copy time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
+        elif(phase ==6):
+            match = re.search(rf'Total time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
         if match:
             seconds, date_raw = match.groups()
             seconds = float(seconds)
             phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
             parsed_date = dateparser.parse(date_raw)
             phase_dates[phase] = parsed_date
-    
-    # check copy and total time
-    for phase in range(5,7):
-        match = re.search(rf'time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
-        if match:
-            seconds, date_raw = match.groups()
-            seconds = float(seconds)
-            phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
-            parsed_date = dateparser.parse(date_raw)
-            phase_dates[phase] = parsed_date
-
     return phase_times, phase_dates
 
 
