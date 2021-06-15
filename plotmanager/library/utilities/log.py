@@ -123,9 +123,9 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
     # check copy time
     match5 = re.search(rf'Copy time = ([\d\.]+) seconds\. CPU \([\d\.]+%\) [A-Za-z]+\s([^\n]+)\n', contents, flags=re.I)
     if match5:
-        seconds, date_raw5 = match.groups()
-        seconds = float(seconds)
-        phase_times[5] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
+        seconds5, date_raw5 = match5.groups()
+        seconds5 = float(seconds5)
+        phase_times[5] = pretty_print_time(int(seconds5), view_settings['include_seconds_for_phase']) if pretty_print else seconds5
         parsed_date5 = dateparser.parse(date_raw5)
         phase_dates[5] = parsed_date5
 
