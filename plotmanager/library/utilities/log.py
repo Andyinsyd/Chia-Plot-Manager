@@ -207,7 +207,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
             send_notifications(
                 title='Plot Completed',
-                body=f'job {job.name} finished on {socket.gethostname()}, Total Time: {phase_times[6]},\n Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} \n Copy Time: {phase_times[6]}',
+                body=f'job {job.name} finished on {socket.gethostname()}.\nTotal Time: {phase_times[6]},\nPhases: {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]}\nCopy Time: {phase_times[6]}',
                 settings=notification_settings,
             )
             break
