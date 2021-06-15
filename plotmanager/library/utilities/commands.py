@@ -198,4 +198,4 @@ def check_phase():
     chia_location, log_directory, config_jobs, manager_check_interval, max_concurrent, max_for_phase_1, \
         minimum_minutes_between_jobs, progress_settings, notification_settings, debug_level, view_settings, \
         instrumentation_settings = get_config_info()
-    check_phase_times(log_directory)
+    check_phase_times(log_directory, view_settings)
