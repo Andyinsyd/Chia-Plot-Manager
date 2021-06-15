@@ -81,6 +81,7 @@ def check_phase_times(log_directory, view_settings):
     files = get_completed_log_files(log_directory)
     for file_path, contents in files.items():
         phase_times, phase_dates = get_phase_info(contents, view_settings, pretty_print=True)
+        print(file_path)
         print(f"File: {file_path}, Total: {phase_times[6]}, Phases : {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]} / {phase_times[5]}")
 
 def analyze_log_times(log_directory):
