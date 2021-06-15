@@ -1,1 +1,0 @@
-python_pushover==0.4
