@@ -130,6 +130,8 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
             phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
             parsed_date = dateparser.parse(date_raw)
             phase_dates[phase] = parsed_date
+        else:
+            phase_times[phase] = 0
     return phase_times, phase_dates
 
 
