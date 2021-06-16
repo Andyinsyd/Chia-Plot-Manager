@@ -5,9 +5,11 @@ import psutil
 import re
 import socket
 
+
 from plotmanager.library.utilities.instrumentation import increment_plots_completed
 from plotmanager.library.utilities.notifications import send_notifications
 from plotmanager.library.utilities.print import pretty_print_time
+from datetime import datetime, timedelta
 
 
 def get_log_file_name(log_directory, job, datetime):
@@ -180,9 +182,13 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
         progress = get_progress(line_count=line_count, progress_settings=progress_settings)
 
         phase_times, phase_dates = get_phase_info(data, view_settings)
+        
         current_phase = 1
         if phase_times:
             current_phase = max(phase_times.keys()) + 1
+            current_phase_time = str(datetime.now() - phase_dates[max(phase_dates.keys())])
+            work.current_phase_time = ':'.join(current_phase_time.split(':')[:2])
+            
         work.phase_times = phase_times
         work.phase_dates = phase_dates
         work.current_phase = current_phase
@@ -207,7 +213,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
             send_notifications(
                 title='Plot Completed',
-                body=f"job {job.name} finished on {socket.gethostname()}.\nTotal Time: {phase_times[6]},\nPhases: {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]}\nCopy Time: {phase_times.get(5,'')}",
+                body=f"job {job.total_completed} - {job.name} finished on {socket.gethostname()}.\nTotal Time: {phase_times[6]},\nPhases: {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]}\nCopy Time: {phase_times.get(5,'')}",
                 settings=notification_settings,
             )
             break

@@ -12,7 +12,7 @@ def _get_row_info(pid, running_work, view_settings, as_raw_values=False):
     work = running_work[pid]
     phase_times = work.phase_times
     elapsed_time = (datetime.now() - work.datetime_start)
-    elapsed_time = pretty_print_time(elapsed_time.seconds + elapsed_time.days * 86400)
+    elapsed_time = pretty_print_time(elapsed_time.seconds + elapsed_time.days * 86400, include_seconds=False)
     phase_time_log = []
     plot_id_prefix = ''
     if work.plot_id:
@@ -28,7 +28,7 @@ def _get_row_info(pid, running_work, view_settings, as_raw_values=False):
         pid,
         work.datetime_start.strftime(view_settings['datetime_format']),
         elapsed_time,
-        work.current_phase,
+        f'{work.current_phase} ({work.current_phase_time})',
         ' / '.join(phase_time_log),
         work.progress,
         pretty_print_bytes(work.temp_file_size, 'gb', 0, " GiB"),
@@ -189,7 +189,7 @@ def print_json(jobs, running_work, view_settings):
 def print_view(jobs, running_work, analysis, drives, next_log_check, view_settings, loop):
     # Job Table
     job_data = get_job_data(jobs=jobs, running_work=running_work, view_settings=view_settings)
-
+    
     # Drive Table
     drive_data = ''
     if view_settings.get('include_drive_info'):
@@ -197,10 +197,10 @@ def print_view(jobs, running_work, analysis, drives, next_log_check, view_settin
 
     manager_processes = get_manager_processes()
 
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
+    #if os.name == 'nt':
+    #    os.system('cls')
+    #else:
+    #    os.system('clear')
     print(pretty_print_job_data(job_data))
     print(f'Manager Status: {"Running" if manager_processes else "Stopped"}')
     print()

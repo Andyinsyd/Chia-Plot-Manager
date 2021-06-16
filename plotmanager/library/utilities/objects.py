@@ -57,6 +57,7 @@ class Work:
 
     phase_times = {}
     total_run_time = None
+    current_phase_time = None
 
     completed = False
 
