@@ -29,7 +29,7 @@ def _get_row_info(pid, running_work, view_settings, as_raw_values=False):
         pid,
         work.datetime_start.strftime(view_settings['datetime_format']),
         elapsed_time,
-        f'{work.current_phase} ({current_phase_time})',
+        f'{work.current_phase} - {current_phase_time}',
         ' / '.join(phase_time_log),
         work.progress,
         pretty_print_bytes(work.temp_file_size, 'gb', 0, " GiB"),
