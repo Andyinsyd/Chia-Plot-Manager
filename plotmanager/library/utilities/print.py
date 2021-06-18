@@ -40,15 +40,20 @@ def _get_row_info(pid, running_work, view_settings, as_raw_values=False):
 
 
 def pretty_print_bytes(size, size_type, significant_digits=2, suffix=''):
-    if size_type.lower() == 'gb':
+
+
+    if size < 1024 ** 4:
         power = 3
-    elif size_type.lower() == 'tb':
+        suffix = "G"
+        significant_digits = 0
+    else: 
         power = 4
-    else:
-        raise Exception('Failed to identify size_type.')
+        suffix = "T"
+        significant_digits = 2
+    
     calculated_value = round(size / (1024 ** power), significant_digits)
     calculated_value = f'{calculated_value:.{significant_digits}f}'
-    return f"{calculated_value}{suffix}"
+    return f"{calculated_value} {suffix}"
 
 
 def pretty_print_time(seconds, include_seconds=True):
@@ -106,7 +111,7 @@ def pretty_print_job_data(job_data):
 
 
 def get_drive_data(drives, running_work, job_data):
-    headers = ['type', 'drive', 'used', 'total', '%', '#', 'temp', 'dest']
+    headers = ['type', 'drive', 'used', 'total', 'Avail', '#', 'temp', 'dest']
     rows = []
 
     pid_to_num = {}
@@ -169,7 +174,7 @@ def get_drive_data(drives, running_work, job_data):
                 drive,
                 f'{pretty_print_bytes(usage.used, "tb", 2, "TiB")}',
                 f'{pretty_print_bytes(usage.total, "tb", 2, "TiB")}',
-                f'{usage.percent}%',
+                f'{pretty_print_bytes(usage.free,"gb",0,"GB")}',
                 '/'.join(counts),
                 '/'.join(temp),
                 '/'.join(dest),
