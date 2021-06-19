@@ -218,11 +218,12 @@ def print_view(jobs, running_work, analysis, drives, next_log_check, view_settin
         if os.name == 'nt':
             print(f"CPU Usage: {psutil.cpu_percent()}%")
         else:
-            print(f"CPU Usage: {psutil.cpu_percent()}%")
             cpu_temp = psutil.sensors_temperatures()
             #pprint.pprint(cpu_temp)
             if('coretemp' in cpu_temp):
                 print(f"CPU Usage: {psutil.cpu_percent()}%, Temperature: {cpu_temp['coretemp'][0].current} °C")
+            else:
+                print(f"CPU Usage: {psutil.cpu_percent()}%")
     if view_settings.get('include_ram'):
         ram_usage = psutil.virtual_memory()
         print(f'RAM Usage: {pretty_print_bytes(ram_usage.used, "gb")}/{pretty_print_bytes(ram_usage.total, "gb", 2, "GiB")}'
