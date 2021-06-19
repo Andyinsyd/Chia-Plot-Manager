@@ -19,7 +19,7 @@ def _get_row_info(pid, running_work, view_settings, as_raw_values=False):
         plot_id_prefix = work.plot_id[0:7]
     for i in range(1, 5):
         if phase_times.get(i):
-            phase_time_log.append(phase_times.get(i))
+            phase_time_log.append(pretty_print_time(int(phase_times.get(i)), include_seconds = False))
 
     current_phase_time = elapsed_time if work.current_phase_time == None else work.current_phase_time
     row = [

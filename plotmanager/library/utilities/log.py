@@ -4,7 +4,7 @@ import os
 import psutil
 import re
 import socket
-
+import requests
 
 from plotmanager.library.utilities.instrumentation import increment_plots_completed
 from plotmanager.library.utilities.notifications import send_notifications
@@ -128,7 +128,7 @@ def get_phase_info(contents, view_settings=None, pretty_print=True):
         if match:
             seconds, date_raw = match.groups()
             seconds = float(seconds)
-            phase_times[phase] = pretty_print_time(int(seconds), view_settings['include_seconds_for_phase']) if pretty_print else seconds
+            phase_times[phase] = seconds
             parsed_date = dateparser.parse(date_raw)
             phase_dates[phase] = parsed_date
 
@@ -181,7 +181,8 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
         progress = get_progress(line_count=line_count, progress_settings=progress_settings)
 
-        phase_times, phase_dates = get_phase_info(data, view_settings)
+        phase_times, phase_dates = get_phase_info(data)
+        
         
         current_phase = 1
         if phase_times:
@@ -211,10 +212,32 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
             job.total_completed += 1
             increment_plots_completed(increment=1, job_name=job.name, instrumentation_settings=instrumentation_settings)
 
-            send_notifications(
-                title='Plot Completed',
-                body=f"job {job.total_completed} - {job.name} finished on {socket.gethostname()}.\nTotal Time: {phase_times[6]},\nPhases: {phase_times[1]} / {phase_times[2]} / {phase_times[3]} / {phase_times[4]}\nCopy Time: {phase_times.get(5,'')}",
-                settings=notification_settings,
-            )
+
+            try:
+                headers={'Content-type':'application/json', 'Accept':'application/json'}
+                #url = "http://192.168.0.173:5000/api/Plot/Create"
+                url = "http://localhost:57097/api/Plot/Create"
+                plot = {
+                    'jobName': job.name,
+                    'kSize': work.k_size,
+                    'totalSeconds': int(phase_times.get(6,0)),
+                    'phase1Seconds': int(phase_times.get(1,0)),
+                    'phase2Seconds': int(phase_times.get(2,0)),
+                    'phase3Seconds': int(phase_times.get(3,0)),
+                    'phase4Seconds': int(phase_times.get(4,0)),
+                    'copySeconds': int(phase_times.get(5,0)),
+                    'machine': socket.gethostname(),
+                    # 'tempPath': job.temporary_directory,
+                    # 'temp2Path': job.temporary2_directory,
+                    # 'destPath': job.destination_directory,
+                    }
+
+                requests.post(url, json=plot, headers = headers)
+            except:
+                send_notifications(
+                    title='Record to DB Error, so send notification',
+                    body=f"job {job.total_completed} - {job.name} finished on {socket.gethostname()}.\nTotal Time: {phase_times.get(6,0)},\nPhases: {phase_times.get(1,0)} / {phase_times.get(2,0)} / {phase_times.get(3,0)} / {phase_times.get(4,0)}\nCopy Time: {phase_times.get(5,0)}",
+                    settings=notification_settings,
+                )
             break
         del running_work[pid]
