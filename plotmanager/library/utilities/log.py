@@ -215,8 +215,8 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
 
             try:
                 headers={'Content-type':'application/json', 'Accept':'application/json'}
-                #url = "http://192.168.0.173:5000/api/Plot/Create"
-                url = "http://localhost:57097/api/Plot/Create"
+                url = "http://192.168.0.173:5000/api/Plot/Create"
+                #url = "http://localhost:57097/api/Plot/Create"
                 plot = {
                     'jobName': job.name,
                     'kSize': work.k_size,
