@@ -1,7 +1,7 @@
 ﻿import requests
 
 headers={'Content-type':'application/json', 'Accept':'application/json'}
-url = "http://localhost:57097/api/Plot/Create";
+url = "http://192.168.0.173:5000/api/Plot/Create"
 
 plot = {
     'jobName': 'sas1',
@@ -17,4 +17,4 @@ plot = {
 
 x = requests.post(url, json=plot, headers = headers)
 
-print(x.text);
+print(x.text)
