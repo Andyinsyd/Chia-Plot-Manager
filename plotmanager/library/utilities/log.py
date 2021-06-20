@@ -166,6 +166,14 @@ def get_progress(line_count, progress_settings):
         progress += phase4_weight * ((line_count - phase3_line_end) / (phase4_line_end - phase3_line_end))
     return progress
 
+def check_error(work, contents, notification_settings):
+    match = re.search(rf'Retrying in five minutes', contents, flags=re.I)
+    if(match):
+        send_notifications(
+                    title='Plotting Error',
+                    body=f"work id: {work.work_id}, plot id: {work.plot_id} on {socket.gethostname()} has an error.",
+                    settings=notification_settings,
+                )
 
 def check_log_progress(jobs, running_work, progress_settings, notification_settings, view_settings,
                        instrumentation_settings):
@@ -182,7 +190,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
         progress = get_progress(line_count=line_count, progress_settings=progress_settings)
 
         phase_times, phase_dates = get_phase_info(data)
-        
+        check_error(work, data, notification_settings)
         
         current_phase = 1
         if phase_times:
