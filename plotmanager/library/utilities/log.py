@@ -171,7 +171,7 @@ def check_error(work, contents, notification_settings):
     if(match):
         send_notifications(
                     title='Plotting Error',
-                    body=f"work id: {work.work_id}, plot id: {work.plot_id} on {socket.gethostname()} has an error.",
+                    body=f"pid: {work.pid}, job: {work['job']['name']} on {socket.gethostname()} has an error.",
                     settings=notification_settings,
                 )
 
