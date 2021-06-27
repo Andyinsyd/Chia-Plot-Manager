@@ -241,6 +241,11 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
                     }
 
                 requests.post(url, json=plot, headers = headers)
+                send_notifications(
+                    title='Api called.',
+                    body=f"json: {plot}",
+                    settings=notification_settings,
+                )
             except:
                 send_notifications(
                     title='Record to DB Error, so send notification',

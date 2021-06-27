@@ -18,9 +18,10 @@
 # x = requests.post(url, json=plot, headers = headers)
 
 # print(x.text)
-import re
+from flask import Flask
 
-str = 'Could not copy "/mnt/hdd1/plot-k32-2021-06-05-17-15-8f7b235a5be38836b61db8987c99a30899ed27d5b398b29e347fc8eb3112aae5.plot.2.tmp" to "/mnt/hub1/usb1/plot-k32-2021-06-05-17-15-8f7b235a5be38836b61db8987c99a30899ed27d5b398b29e347fc8eb3112aae5.plot.2.tmp". Error No space left on device. Retrying in five minutes.'
-match = re.search(rf'Retrying in five minutes', str, flags=re.I)
-if(match):
-    print(match)
+app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
