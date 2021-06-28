@@ -18,10 +18,10 @@
 # x = requests.post(url, json=plot, headers = headers)
 
 # print(x.text)
-from flask import Flask
 
-app = Flask(__name__)
+ks = 32
+bs = 5
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+result = bs if bs else ks
+
+print(result)

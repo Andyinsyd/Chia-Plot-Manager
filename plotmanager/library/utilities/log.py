@@ -227,7 +227,7 @@ def check_log_progress(jobs, running_work, progress_settings, notification_setti
                 #url = "http://localhost:57097/api/Plot/Create"
                 plot = {
                     'jobName': job.name,
-                    'kSize': work.k_size,
+                    'kSize': work.k_size if work.k_size else (work.job.size if work.job.size else 32),
                     'totalSeconds': int(phase_times.get(6,0)),
                     'phase1Seconds': int(phase_times.get(1,0)),
                     'phase2Seconds': int(phase_times.get(2,0)),
