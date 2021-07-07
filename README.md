@@ -68,7 +68,7 @@ The installation of this library is straightforward. I have attached detailed in
 #### NOTE: If `python` does not work, please try `python3`.
 
 1. Download and Install Python 3.7 or higher: https://www.python.org/
-2. git clone https://github.com/Andyinsyd/Plotter.git
+2. git clone https://github.com/Andyinsyd/SwarPlotter.git
 3. cd Plotter
 4. python -m venv venv
 5. pip install -r requirements.txt
